@@ -20,7 +20,7 @@ async function openPalette() {
   var tab = await getCurrentTab();
   console.log(tab);
 
-  if (tab == "undefined" || tab.url.match(/chrome:*/) != null) {
+  if (tab === undefined || tab.url.match(/chrome:*/) != null) {
     console.log("Invalid tab. Unable to open palette on this tab");
     return;
   }
@@ -52,6 +52,6 @@ function displayPalette() {
 <canvas id="confetti-holder" style="position: fixed; top:0; left: 0; z-index: 3000"></canvas>\
 ';
 
-var dialog = document.querySelector("dialog");
-dialog.showModal();
+  var dialog = document.querySelector("dialog");
+  dialog.showModal();
 }
