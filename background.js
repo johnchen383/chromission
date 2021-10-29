@@ -20,7 +20,7 @@ async function openPalette() {
   var tab = await getCurrentTab();
   console.log(tab);
 
-  if (tab == 'undefined' || tab.url == 'chrome://*') {
+  if (tab == 'undefined' || tab.url.match(/chrome:*/) != null) {
       console.log("Invalid tab. Unable to open palette on this tab");
       return;
   }
