@@ -9,6 +9,12 @@
   "background": {
     "service_worker": "background.js"
   },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "action": {},
   "commands":{
     "open-palette": {
       "suggested_key": "Ctrl+Shift+Space",
