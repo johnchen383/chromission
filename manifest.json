@@ -11,7 +11,7 @@
   },
   "commands":{
     "open-palette": {
-      "suggested_key": "Ctrl+Shift+Z",
+      "suggested_key": "Ctrl+Shift+Space",
       "description": "Open Command Palette"
     }
   }

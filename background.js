@@ -1,3 +1,15 @@
+console.log("background script running");
+
 chrome.commands.onCommand.addListener((command) => {
-  console.log(`Command ${command} triggered`);
+  switch (command) {
+      case "open-palette":
+          openPalette();
+          break;
+      default:
+          break;
+  }
 });
+
+function openPalette() {
+    console.log("palette should open")
+}
