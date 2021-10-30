@@ -1,4 +1,6 @@
 var paletteOpen = false;
+var currentTabId = getCurrentTab().id;
+console.log(currentTabId);
 
 /**
  * Event Listeners
@@ -15,17 +17,31 @@ chrome.commands.onCommand.addListener((command) => {
 });
 
 /**
+ * Tab listener
+ */
+chrome.tabs.onActivated.addListener(function(tab) {
+  if (currentTabId != tab.tabId){
+    //switched tabs
+    if (paletteOpen){
+      //if palette was open, close it before switching
+      chrome.scripting.executeScript({
+        target: { tabId: currentTabId },
+        function: closePalette,
+      });
+      paletteOpen = false;
+    }
+  }
+  currentTabId = tab.tabId;
+  console.log("Selected Tab: " + tab.tabId);
+});
+
+/**
  * Callback functions
  */
 
 async function togglePalette() {
-  //procure current tab
-  var tab = await getCurrentTab();
-  console.log("Tab");
-  console.log(tab);
-
   //unable to open palette
-  if (typeof tab == "undefined" || tab.url.match(/chrome:*/) != null) {
+  if (typeof currentTabId == "undefined") {
     console.log("Invalid tab. Unable to open palette on this tab");
     return;
   }
@@ -36,7 +52,7 @@ async function togglePalette() {
     console.log("palette should close");
 
     chrome.scripting.executeScript({
-      target: { tabId: tab.id },
+      target: { tabId: currentTabId },
       function: closePalette,
     });
 
@@ -46,7 +62,7 @@ async function togglePalette() {
     console.log("palette should open");
 
     chrome.scripting.executeScript({
-      target: { tabId: tab.id },
+      target: { tabId: currentTabId },
       function: showPalette,
     });
   }
