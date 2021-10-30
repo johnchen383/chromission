@@ -19,25 +19,29 @@ chrome.commands.onCommand.addListener((command) => {
  */
 
 async function togglePalette() {
-  if (paletteOpen) {
-    //close palette
-    paletteOpen = false;
+  //procure current tab
+  var tab = await getCurrentTab();
+  console.log("Tab");
+  console.log(tab);
 
+  //unable to open palette
+  if (typeof tab == "undefined" || tab.url.match(/chrome:*/) != null) {
+    console.log("Invalid tab. Unable to open palette on this tab");
+    return;
+  }
+
+  if (paletteOpen) {
+    //if open, close palette
+    paletteOpen = false;
     console.log("palette should close");
 
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: closePalette,
+    });
 
   } else {
-    //procure current tab
-    var tab = await getCurrentTab();
-    console.log(tab);
-
-    //unable to open palette
-    if (typeof tab == "undefined" || tab.url.match(/chrome:*/) != null) {
-      console.log("Invalid tab. Unable to open palette on this tab");
-      return;
-    }
-
-    //open palette
+    //if closed, open palette
     paletteOpen = true;
     console.log("palette should open");
 
@@ -60,6 +64,15 @@ async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
+}
+
+/**
+ * Remove Command Palette
+ */
+function closePalette(){
+  console.log("Palette to be closed");
+  var dialog = document.querySelector("dialog");
+  dialog.remove();
 }
 
 /**
