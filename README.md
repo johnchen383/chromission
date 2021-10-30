@@ -11,4 +11,4 @@ Developer's Note:
       refactor - refactoring codebase
       doc - commenting and other documentation
   
-- Test extension on [chrome://extensions/] with developer options
+- Test extension on `chrome://extensions/` with developer options
