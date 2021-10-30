@@ -1,12 +1,17 @@
+var paletteOpen = false;
+var currentTabId = getCurrentTab().id;
+console.log(currentTabId);
+
 /**
  * Event Listeners
  */
 chrome.commands.onCommand.addListener((command) => {
   switch (command) {
-    case "open-palette":
-      openPalette();
+    case "toggle-palette":
+      togglePalette();
       break;
     default:
+      console.log(`Invalid command ${command}`);
       break;
   }
 });
@@ -15,34 +20,75 @@ chrome.commands.onCommand.addListener((command) => {
 // });
 
 /**
+ * Tab listener
+ */
+chrome.tabs.onActivated.addListener(function (tab) {
+  if (currentTabId != tab.tabId) {
+    //switched tabs
+    if (paletteOpen) {
+      //if palette was open, close it before switching
+      chrome.scripting.executeScript({
+        target: { tabId: currentTabId },
+        function: closePalette,
+      });
+      paletteOpen = false;
+    }
+  }
+  currentTabId = tab.tabId;
+  console.log("Selected Tab: " + tab.tabId);
+});
+
+/**
  * Callback functions
  */
 
-async function openPalette() {
-  console.log("palette should open");
-  var tab = await getCurrentTab();
-  console.log(tab);
-
-  if (tab === undefined || tab.url.match(/chrome:*/) != null) {
+async function togglePalette() {
+  //unable to open palette
+  if (typeof currentTabId == "undefined") {
     console.log("Invalid tab. Unable to open palette on this tab");
     return;
   }
 
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: textbox,
-  });
+  if (paletteOpen) {
+    //if open, close palette
+    paletteOpen = false;
+    console.log("palette should close");
+
+    chrome.scripting.executeScript({
+      target: { tabId: currentTabId },
+      function: closePalette,
+    });
+  } else {
+    //if closed, open palette
+    paletteOpen = true;
+    console.log("palette should open");
+
+    chrome.scripting.executeScript({
+      target: { tabId: currentTabId },
+      function: showPalette,
+    });
+  }
 }
 
 /**
  * Helper functions
+ */
+
+/**
+ * Get current tab
+ * @returns currentTab
  */
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
-function textbox() {
+function closePalette() {
+  console.log("Palette to be closed");
+  var dialog = document.querySelector("dialog");
+  dialog.remove();
+}
+function showPalette() {
   var arrayOfWebsites = []; // this will be done through chrome.storage later on
   console.log("Palette to be displayed");
   function addHTML() {
@@ -62,6 +108,14 @@ function textbox() {
   }
 
   // workspace
+
+  /**
+   * Remove Command Palette
+   */
+
+  /**
+   * Inject Command Palette
+   */
 
   addHTML();
   const form = document.getElementById("myForm");
