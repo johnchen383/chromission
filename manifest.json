@@ -15,7 +15,7 @@
     "scripting"
   ],
   "commands":{
-    "open-palette": {
+    "toggle-palette": {
       "suggested_key": "Ctrl+Shift+Space",
       "description": "Open Command Palette"
     }
