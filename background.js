@@ -1,12 +1,15 @@
+var paletteOpen = false;
+
 /**
  * Event Listeners
  */
 chrome.commands.onCommand.addListener((command) => {
   switch (command) {
-    case "open-palette":
-      openPalette();
+    case "toggle-palette":
+      togglePalette();
       break;
     default:
+      console.log(`Invalid command ${command}`);
       break;
   }
 });
@@ -15,24 +18,43 @@ chrome.commands.onCommand.addListener((command) => {
  * Callback functions
  */
 
-async function openPalette() {
-  console.log("palette should open");
-  var tab = await getCurrentTab();
-  console.log(tab);
+async function togglePalette() {
+  if (paletteOpen) {
+    //close palette
+    paletteOpen = false;
 
-  if (tab == "undefined" || tab.url.match(/chrome:*/) != null) {
-    console.log("Invalid tab. Unable to open palette on this tab");
-    return;
+    console.log("palette should close");
+
+
+  } else {
+    //procure current tab
+    var tab = await getCurrentTab();
+    console.log(tab);
+
+    //unable to open palette
+    if (typeof tab == "undefined" || tab.url.match(/chrome:*/) != null) {
+      console.log("Invalid tab. Unable to open palette on this tab");
+      return;
+    }
+
+    //open palette
+    paletteOpen = true;
+    console.log("palette should open");
+
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: showPalette,
+    });
   }
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: displayPalette,
-  });
 }
 
 /**
  * Helper functions
+ */
+
+/**
+ * Get current tab
+ * @returns currentTab
  */
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
@@ -40,7 +62,10 @@ async function getCurrentTab() {
   return tab;
 }
 
-function displayPalette() {
+/**
+ * Inject Command Palette
+ */
+function showPalette() {
   console.log("Palette to be displayed");
   document.body.innerHTML +=
     '<dialog style="border: none; border-radius: 24px; width: 20vw;">\
@@ -52,6 +77,6 @@ function displayPalette() {
 <canvas id="confetti-holder" style="position: fixed; top:0; left: 0; z-index: 3000"></canvas>\
 ';
 
-var dialog = document.querySelector("dialog");
-dialog.showModal();
+  var dialog = document.querySelector("dialog");
+  dialog.showModal();
 }
