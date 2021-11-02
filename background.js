@@ -30,7 +30,6 @@ async function getCurrentTab() {
  */
 async function getWindowTabs() {
   //returns a promise
-  console.log('fired')
   let queryOptions = { currentWindow: true };
   return new Promise((resolve, reject) =>
     chrome.tabs.query(queryOptions, (tab) => {
@@ -70,8 +69,7 @@ if (form != null) {
       case "addAll": //for now to make them different - could change them later if wanted
         getWindowTabs().then((tabs) => {
           let arrayOfWebsites = [];
-          console.log(tabs);
-          console.log(tabs.length);
+
           for (let i = 0; i < tabs.length; i++) {
             console.log(tabs[i].url)
             arrayOfWebsites[i] = tabs[i].url;
