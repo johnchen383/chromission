@@ -25,6 +25,21 @@ async function getCurrentTab() {
 }
 
 /**
+ * Gets tabs of the active window
+ * @returns all tabs
+ */
+async function getWindowTabs() {
+  //returns a promise
+  console.log('fired')
+  let queryOptions = { currentWindow: true };
+  return new Promise((resolve, reject) =>
+    chrome.tabs.query(queryOptions, (tab) => {
+      console.log(tab);
+      resolve(tab);
+    })
+  );
+}
+/**
  * Add form handler
  */
 if (form != null) {
@@ -53,7 +68,32 @@ if (form != null) {
        * Adds all tabs of active window to a particular workspace
        */
       case "addAll": //for now to make them different - could change them later if wanted
-        TODO: break;
+        getWindowTabs().then((tabs) => {
+          let arrayOfWebsites = [];
+          console.log(tabs);
+          console.log(tabs.length);
+          for (let i = 0; i < tabs.length; i++) {
+            console.log(tabs[i].url)
+            arrayOfWebsites[i] = tabs[i].url;
+          }
+
+          chrome.storage.sync.get([workspace], function (result) {
+            if (result[workspace] !== undefined) {
+              arrayOfWebsites.push(...result[workspace]);
+            }
+
+            chrome.storage.sync.set(
+              { [workspace]: arrayOfWebsites },
+              function () {
+                console.log("Value is set to " + arrayOfWebsites);
+              }
+            );
+          });
+        });
+
+        input.value = "> ";
+        break;
+        
       /**
        * Adds active tab to a particular workspace
        */
