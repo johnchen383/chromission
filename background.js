@@ -74,6 +74,8 @@ if (form != null) {
             );
           });
         });
+
+        input.value = "> ";
         break;
       /**
        * Removes active tab from a particular workspace
