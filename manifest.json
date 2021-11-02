@@ -17,14 +17,3 @@
   ],
   "permissions": ["tabs", "activeTab", "storage"]
 }
-// "commands": {
-//   "toggle-palette": {
-//     "suggested_key": "Ctrl+Shift+Space",
-//     "description": "Open Command Palette"
-//   }
-// }
-
-// "background": {
-//   "scripts": ["background.js"],
-//   "persistent": false
-// },

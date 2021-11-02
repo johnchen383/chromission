@@ -19,6 +19,7 @@ async function getCurrentTab() {
 
 const form = document.getElementById("myForm");
 const openTabs = document.getElementById("openTabs");
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const toBeInserted = document.getElementById("commandName").value;
@@ -38,7 +39,11 @@ form.addEventListener("submit", (e) => {
       getCurrentTab().then((tab) => {
         chrome.storage.sync.get([workspace], function (result) {
           let arrayOfWebsites = [tab];
-          arrayOfWebsites.push(...result[workspace]);
+
+          if (result[workspace] !== undefined){
+            arrayOfWebsites.push(...result[workspace]);
+          }
+         
           chrome.storage.sync.set(
             { [workspace]: arrayOfWebsites },
             function () {
@@ -47,7 +52,7 @@ form.addEventListener("submit", (e) => {
           );
         });
       });
-
+      break;
     case "remove":
 
     case "close":
