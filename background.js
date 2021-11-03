@@ -1,14 +1,24 @@
 /**
- * Get form and tabs element from .html
+ * Get .html elements
  */
 const form = document.getElementById("myForm");
-
 const input = document.getElementById("commandName");
+const injectable = document.getElementById("injectable");
 
 if (input != null) {
   input.focus();
   input.value = "> ";
 }
+
+if (injectable != null){
+  injectable.style.display = "none";
+}
+
+function addInjectableText(text){
+  injectable.innerText = text;
+  injectable.style.display = "block";
+}
+
 
 /**
  * Get the url of the current tab
@@ -46,6 +56,7 @@ if (form != null) {
     e.preventDefault();
     const toBeInserted = input.value.split("> ", 2)[1];
     let [command, workspace] = toBeInserted.split(" ");
+    injectable.style.display = "none";
 
     switch (command) {
       /**
@@ -56,7 +67,7 @@ if (form != null) {
           let allwebsites = result[workspace];
 
           if (allwebsites === undefined) {
-            console.log("unable to open workspace: " + workspace);
+            addInjectableText("Workspace does not exist: " + workspace);
             return;
           }
 
@@ -192,6 +203,7 @@ if (form != null) {
         chrome.storage.sync.get(null, function (items) {
           var allKeys = Object.entries(items);
           console.log(allKeys);
+          addInjectableText("yo yo")
         });
         input.value = "> ";
         break;
