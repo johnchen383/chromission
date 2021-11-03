@@ -10,15 +10,14 @@ if (input != null) {
   input.value = "> ";
 }
 
-if (injectable != null){
+if (injectable != null) {
   injectable.style.display = "none";
 }
 
-function addInjectableText(text){
+function addInjectableText(text) {
   injectable.innerText = text;
   injectable.style.display = "block";
 }
-
 
 /**
  * Get the url of the current tab
@@ -67,7 +66,7 @@ if (form != null) {
           let allwebsites = result[workspace];
 
           if (allwebsites === undefined) {
-            addInjectableText("Workspace does not exist: " + workspace);
+            addInjectableText("workspace does not exist: " + workspace);
             return;
           }
 
@@ -82,7 +81,6 @@ if (form != null) {
           let arrayOfWebsites = [];
 
           for (let i = 0; i < tabs.length; i++) {
-            console.log(tabs[i].url);
             arrayOfWebsites[i] = tabs[i];
           }
 
@@ -91,12 +89,7 @@ if (form != null) {
               arrayOfWebsites.push(...result[workspace]);
             }
 
-            chrome.storage.sync.set(
-              { [workspace]: arrayOfWebsites },
-              function () {
-                console.log("Value is set to " + arrayOfWebsites);
-              }
-            );
+            chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
           });
         });
 
@@ -115,13 +108,7 @@ if (form != null) {
               arrayOfWebsites.push(...result[workspace]);
             }
 
-            chrome.storage.sync.set(
-              { [workspace]: arrayOfWebsites },
-              function () {
-                console.log(arrayOfWebsites);
-                console.log("Value is set to " + arrayOfWebsites);
-              }
-            );
+            chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
           });
         });
 
@@ -146,12 +133,7 @@ if (form != null) {
               );
             }
 
-            chrome.storage.sync.set(
-              { [workspace]: arrayOfWebsites },
-              function () {
-                console.log("Value is set to " + arrayOfWebsites);
-              }
-            );
+            chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
           });
         });
         input.value = "> ";
@@ -164,7 +146,7 @@ if (form != null) {
           let allwebsites = result[workspace];
 
           if (allwebsites === undefined) {
-            console.log("unable to open workspace: " + workspace);
+            addInjectableText("workspace does not exist: " + workspace);
             return;
           }
 
@@ -191,10 +173,18 @@ if (form != null) {
        * Deletes a particular workspace
        */
       case "delete":
-        chrome.storage.sync.remove([workspace], function (result) {
-          console.log("result", result);
+        chrome.storage.sync.get([workspace], function (result) {
+          let allwebsites = result[workspace];
+
+          if (allwebsites === undefined) {
+            addInjectableText("workspace does not exist: " + workspace);
+            return;
+          }
+          chrome.storage.sync.remove([workspace], function (result) {
+            console.log("result", result);
+          });
+          input.value = "> ";
         });
-        input.value = "> ";
         break;
       /**
        * Lists all the workspaces that can be used
@@ -202,8 +192,13 @@ if (form != null) {
       case "list":
         chrome.storage.sync.get(null, function (items) {
           var allKeys = Object.entries(items);
-          console.log(allKeys);
-          addInjectableText("yo yo")
+
+          var str = "Workspaces:\n";
+          allKeys.map((key) => {
+            var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
+            str += s;
+          })
+          addInjectableText(str);
         });
         input.value = "> ";
         break;
@@ -211,6 +206,11 @@ if (form != null) {
        * Shows all the commands that can be used
        */
       case "help":
+        var str = "Commands:\n" +
+        "- add <x> .. adds current tab to workspace x \n" + 
+        "- addAll <x> .. adds all tabs of active window to workspace x \n";
+        addInjectableText(str);
+        input.value = "> ";
         break;
 
       default:
