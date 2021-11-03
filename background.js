@@ -19,7 +19,7 @@ async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   return new Promise((resolve, reject) =>
     chrome.tabs.query(queryOptions, (tab) => {
-      resolve(tab[0].url);
+      resolve(tab[0]);
     })
   );
 }
@@ -60,7 +60,7 @@ if (form != null) {
             return;
           }
 
-          allwebsites.map((website) => window.open(website));
+          allwebsites.map((website) => window.open(website.url));
         });
         break;
       /**
@@ -71,8 +71,8 @@ if (form != null) {
           let arrayOfWebsites = [];
 
           for (let i = 0; i < tabs.length; i++) {
-            console.log(tabs[i].url)
-            arrayOfWebsites[i] = tabs[i].url;
+            console.log(tabs[i].url);
+            arrayOfWebsites[i] = tabs[i];
           }
 
           chrome.storage.sync.get([workspace], function (result) {
@@ -91,7 +91,7 @@ if (form != null) {
 
         input.value = "> ";
         break;
-        
+
       /**
        * Adds active tab to a particular workspace
        */
@@ -107,6 +107,7 @@ if (form != null) {
             chrome.storage.sync.set(
               { [workspace]: arrayOfWebsites },
               function () {
+                console.log(arrayOfWebsites);
                 console.log("Value is set to " + arrayOfWebsites);
               }
             );
@@ -119,21 +120,85 @@ if (form != null) {
        * Removes active tab from a particular workspace
        */
       case "remove":
+        getCurrentTab().then((tab) => {
+          chrome.storage.sync.get([workspace], function (result) {
+            let arrayOfWebsites = [];
+            let tabInWorkspace = result[workspace].find(
+              (resultTab) => tab.url === resultTab.url
+            );
+            if (
+              result[workspace] !== undefined &&
+              tabInWorkspace !== undefined
+            ) {
+              arrayOfWebsites = result[workspace].filter(
+                (resultTabs) => resultTabs.url !== tabInWorkspace.url
+              );
+            }
+
+            chrome.storage.sync.set(
+              { [workspace]: arrayOfWebsites },
+              function () {
+                console.log("Value is set to " + arrayOfWebsites);
+              }
+            );
+          });
+        });
+        input.value = "> ";
         break;
       /**
        * Close all tabs which match a particular workspace
        */
       case "close":
+        chrome.storage.sync.get([workspace], function (result) {
+          let allwebsites = result[workspace];
+
+          if (allwebsites === undefined) {
+            console.log("unable to open workspace: " + workspace);
+            return;
+          }
+
+          allwebsites.map((website) => chrome.tabs.remove(website.id));
+        });
+
         break;
       /**
        * Closes all tabs and resets with a new tab
        */
       case "reset":
+        getWindowTabs().then((tabs) => {
+          let arrayOfTabIDs = [];
+
+          tabs.map((tab) => {
+            arrayOfTabIDs.push(tab.id);
+          });
+          window.open("https://www.google.com/");
+          arrayOfTabIDs.map((tabID) => chrome.tabs.remove(tabID));
+        });
+
         break;
       /**
        * Deletes a particular workspace
        */
       case "delete":
+        chrome.storage.sync.remove([workspace], function (result) {
+          console.log("result", result);
+        });
+        input.value = "> ";
+        break;
+      /**
+       * Lists all the workspaces that can be used
+       */
+      case "list":
+        chrome.storage.sync.get(null, function (items) {
+          var allKeys = Object.entries(items);
+          console.log(allKeys);
+        });
+        input.value = "> ";
+        break;
+      /**
+       * Shows all the commands that can be used
+       */
+      case "help":
         break;
 
       default:
