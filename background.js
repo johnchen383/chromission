@@ -4,6 +4,40 @@
 const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
+var command = "";
+input.onkeydown = (e) => {
+  if (e.key === " ") {
+    console.log("here");
+    switch (command) {
+      case "open":
+        input.style.color = "green";
+        break;
+      case "remove":
+        input.style.color = "red";
+        break;
+      case "addAll":
+        input.style.color = "blue";
+        break;
+      case "delete":
+        input.style.color = "gold";
+        break;
+      case "list":
+        input.style.color = "orange";
+        break;
+      case "help":
+        input.style.color = "grey";
+        break;
+      case "reset":
+        input.style.color = "yellow";
+        break;
+    }
+  }
+  if (e.key === "Backspace") {
+    command = command.substring(0, command.length - 1);
+  } else {
+    command += e.key;
+  }
+};
 
 if (input != null) {
   input.focus();
@@ -42,7 +76,6 @@ async function getWindowTabs() {
   let queryOptions = { currentWindow: true };
   return new Promise((resolve, reject) =>
     chrome.tabs.query(queryOptions, (tab) => {
-      console.log(tab);
       resolve(tab);
     })
   );
@@ -141,19 +174,19 @@ if (form != null) {
       /**
        * Close all tabs which match a particular workspace
        */
-      case "close":
-        chrome.storage.sync.get([workspace], function (result) {
-          let allwebsites = result[workspace];
+      // case "close":
+      //   chrome.storage.sync.get([workspace], function (result) {
+      //     let allwebsites = result[workspace];
 
-          if (allwebsites === undefined) {
-            addInjectableText("workspace does not exist: " + workspace);
-            return;
-          }
+      //     if (allwebsites === undefined) {
+      //       addInjectableText("workspace does not exist: " + workspace);
+      //       return;
+      //     }
 
-          allwebsites.map((website) => chrome.tabs.remove(website.id));
-        });
+      //     allwebsites.map((website) => chrome.tabs.remove(website.id));
+      //   });
 
-        break;
+      //   break;
       /**
        * Closes all tabs and resets with a new tab
        */
@@ -192,12 +225,12 @@ if (form != null) {
       case "list":
         chrome.storage.sync.get(null, function (items) {
           var allKeys = Object.entries(items);
-
+          console.log(allKeys);
           var str = "Workspaces:\n";
           allKeys.map((key) => {
             var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
             str += s;
-          })
+          });
           addInjectableText(str);
         });
         input.value = "> ";
@@ -206,9 +239,13 @@ if (form != null) {
        * Shows all the commands that can be used
        */
       case "help":
-        var str = "Commands:\n" +
-        "- add <x> .. adds current tab to workspace x \n" + 
-        "- addAll <x> .. adds all tabs of active window to workspace x \n";
+        var str =
+          "Commands:\n" +
+          "- add <x> .. adds current tab to workspace x \n\n" +
+          "- addAll <x> .. adds all tabs of active window to workspace x \n\n" +
+          "- remove <x> .. remove current tab from workspace x \n\n" +
+          "- delete <x> .. deletes the workspace x \n\n" +
+          "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
         addInjectableText(str);
         input.value = "> ";
         break;
