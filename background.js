@@ -15,7 +15,7 @@ input.onkeydown = (e) => {
       case "remove":
         input.style.color = "red";
         break;
-      case "addAll":
+      case "add-all":
         input.style.color = "blue";
         break;
       case "delete":
@@ -109,7 +109,7 @@ if (form != null) {
       /**
        * Adds all tabs of active window to a particular workspace
        */
-      case "addAll": //for now to make them different - could change them later if wanted
+      case "add-all": //for now to make them different - could change them later if wanted
         getWindowTabs().then((tabs) => {
           let arrayOfWebsites = [];
 
@@ -242,7 +242,7 @@ if (form != null) {
         var str =
           "Commands:\n" +
           "- add <x> .. adds current tab to workspace x \n\n" +
-          "- addAll <x> .. adds all tabs of active window to workspace x \n\n" +
+          "- add-all <x> .. adds all tabs of active window to workspace x \n\n" +
           "- remove <x> .. remove current tab from workspace x \n\n" +
           "- delete <x> .. deletes the workspace x \n\n" +
           "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
