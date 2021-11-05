@@ -5,39 +5,44 @@ const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
 var command = "";
-input.onkeydown = (e) => {
-  if (e.key === " ") {
-    console.log("here");
-    switch (command) {
-      case "open":
-        input.style.color = "green";
-        break;
-      case "remove":
-        input.style.color = "red";
-        break;
-      case "add-all":
-        input.style.color = "blue";
-        break;
-      case "delete":
-        input.style.color = "gold";
-        break;
-      case "list":
-        input.style.color = "orange";
-        break;
-      case "help":
-        input.style.color = "grey";
-        break;
-      case "reset":
-        input.style.color = "yellow";
-        break;
+if (input !== null) {
+  input.onkeydown = (e) => {
+    if (e.key === " ") {
+      console.log("here");
+      switch (command) {
+        case "add":
+          input.style.color = "turquoise";
+          break;
+        case "open":
+          input.style.color = "green";
+          break;
+        case "remove":
+          input.style.color = "red";
+          break;
+        case "add-all":
+          input.style.color = "blue";
+          break;
+        case "delete":
+          input.style.color = "gold";
+          break;
+        case "list":
+          input.style.color = "orange";
+          break;
+        case "help":
+          input.style.color = "grey";
+          break;
+        case "reset":
+          input.style.color = "yellow";
+          break;
+      }
     }
-  }
-  if (e.key === "Backspace") {
-    command = command.substring(0, command.length - 1);
-  } else {
-    command += e.key;
-  }
-};
+    if (e.key === "Backspace") {
+      command = command.substring(0, command.length - 1);
+    } else {
+      command += e.key;
+    }
+  };
+}
 
 if (input != null) {
   input.focus();
