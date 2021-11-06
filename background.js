@@ -233,16 +233,32 @@ if (form != null) {
        * Lists all the workspaces that can be used
        */
       case "list":
-        chrome.storage.sync.get(null, function (items) {
-          var allKeys = Object.entries(items);
-          console.log(allKeys);
-          var str = "Workspaces:\n";
-          allKeys.map((key) => {
-            var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
-            str += s;
+
+        if (workspace === undefined){
+          chrome.storage.sync.get(null, function (items) {
+            var allKeys = Object.entries(items);
+            console.log(allKeys);
+            var str = "Workspaces:\n";
+            allKeys.map((key) => {
+              var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
+              str += s;
+            });
+            addInjectableText(str);
           });
-          addInjectableText(str);
-        });
+        } else {
+          chrome.storage.sync.get([workspace], function (result) {
+            let allwebsites = result[workspace];
+            console.log(allwebsites);
+            
+            var str = "Sites in workspace: " + workspace + "\n";
+            allwebsites.map((site) => {
+              var s = "- " + site.url + "\n";
+              str += s;
+            });
+            addInjectableText(str);            
+          });
+        }
+        
         input.value = "> ";
         break;
       /**
