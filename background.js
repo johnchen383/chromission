@@ -5,6 +5,7 @@ const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
 var command = "";
+
 if (input !== null) {
   input.onkeydown = (e) => {
     if (e.key === " ") {
@@ -37,7 +38,11 @@ if (input !== null) {
       }
     }
     if (e.key === "Backspace") {
-      command = command.substring(0, command.length - 1);
+      if (input.value.length > 3){
+        command = command.substring(0, command.length - 1);
+      } else {
+        input.value = ">  ";
+      }
     } else {
       command += e.key;
     }
