@@ -9,7 +9,6 @@ var command = "";
 if (input !== null) {
   input.onkeydown = (e) => {
     if (e.key === " ") {
-      console.log("here");
       switch (command) {
         case "add":
           input.style.color = "turquoise";
@@ -38,11 +37,13 @@ if (input !== null) {
       }
     }
     if (e.key === "Backspace") {
-      if (input.value.length > 3){
+      if (input.value.length >= 3) {
         command = command.substring(0, command.length - 1);
       } else {
         input.value = ">  ";
       }
+    } else if (e.key === "Enter") {
+      command = "";
     } else {
       command += e.key;
     }
@@ -72,7 +73,7 @@ async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   return new Promise((resolve, reject) =>
     chrome.tabs.query(queryOptions, (tab) => {
-      resolve(tab[0]);
+      resolve(tab[0].url);
     })
   );
 }
@@ -113,7 +114,7 @@ if (form != null) {
             return;
           }
 
-          allwebsites.map((website) => window.open(website.url));
+          allwebsites.map((website) => window.open(website));
         });
         break;
       /**
@@ -146,7 +147,6 @@ if (form != null) {
         getCurrentTab().then((tab) => {
           chrome.storage.sync.get([workspace], function (result) {
             let arrayOfWebsites = [tab];
-
             if (result[workspace] !== undefined) {
               arrayOfWebsites.push(...result[workspace]);
             }
@@ -165,14 +165,14 @@ if (form != null) {
           chrome.storage.sync.get([workspace], function (result) {
             let arrayOfWebsites = [];
             let tabInWorkspace = result[workspace].find(
-              (resultTab) => tab.url === resultTab.url
+              (resultTab) => tab === resultTab
             );
             if (
               result[workspace] !== undefined &&
               tabInWorkspace !== undefined
             ) {
               arrayOfWebsites = result[workspace].filter(
-                (resultTabs) => resultTabs.url !== tabInWorkspace.url
+                (resultTabs) => resultTabs !== tabInWorkspace
               );
             }
 
@@ -233,11 +233,9 @@ if (form != null) {
        * Lists all the workspaces that can be used
        */
       case "list":
-
-        if (workspace === undefined){
+        if (workspace === undefined || workspace === "") {
           chrome.storage.sync.get(null, function (items) {
             var allKeys = Object.entries(items);
-            console.log(allKeys);
             var str = "Workspaces:\n";
             allKeys.map((key) => {
               var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
@@ -248,17 +246,16 @@ if (form != null) {
         } else {
           chrome.storage.sync.get([workspace], function (result) {
             let allwebsites = result[workspace];
-            console.log(allwebsites);
-            
+
             var str = "Sites in workspace: " + workspace + "\n";
             allwebsites.map((site) => {
-              var s = "- " + site.url + "\n";
+              var s = "- " + site + "\n";
               str += s;
             });
-            addInjectableText(str);            
+            addInjectableText(str);
           });
         }
-        
+
         input.value = "> ";
         break;
       /**
