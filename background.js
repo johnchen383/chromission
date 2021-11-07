@@ -54,10 +54,7 @@ if (input !== null) {
   };
 }
 
-if (input != null) {
-  input.focus();
-  input.value = "> ";
-}
+resetInputField();
 
 if (injectable != null) {
   injectable.style.display = "none";
@@ -95,6 +92,19 @@ async function getWindowTabs() {
     })
   );
 }
+
+/**
+ * Reset the input field
+ */
+
+function resetInputField() {
+  if (input != null) {
+    input.focus();
+    input.value = "> ";
+    input.style.color = "white";
+  }
+}
+
 /**
  * Add form handler
  */
@@ -112,19 +122,21 @@ if (form != null) {
       case "open":
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           chrome.storage.sync.get([workspace], function (result) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace '" + workspace+ "' does not exist.");
+              addInjectableText(
+                "workspace '" + workspace + "' does not exist."
+              );
               return;
             }
 
             allwebsites.map((website) => window.open(website));
           });
         }
+        resetInputField();
         break;
       /**
        * Adds all tabs of active window to a particular workspace
@@ -132,7 +144,6 @@ if (form != null) {
       case "add-all": //for now to make them different - could change them later if wanted
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           getWindowTabs().then((tabs) => {
             let arrayOfWebsites = [];
@@ -149,9 +160,8 @@ if (form != null) {
               chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
             });
           });
-
-          input.value = "> ";
         }
+        resetInputField();
         break;
 
       /**
@@ -160,7 +170,6 @@ if (form != null) {
       case "add":
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           getCurrentTab().then((tab) => {
             chrome.storage.sync.get([workspace], function (result) {
@@ -172,9 +181,9 @@ if (form != null) {
               chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
             });
           });
-
-          input.value = "> ";
         }
+
+        resetInputField();
         break;
       /**
        * Removes active tab from a particular workspace
@@ -182,7 +191,6 @@ if (form != null) {
       case "remove":
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           getCurrentTab().then((tab) => {
             chrome.storage.sync.get([workspace], function (result) {
@@ -202,8 +210,8 @@ if (form != null) {
               chrome.storage.sync.set({ [workspace]: arrayOfWebsites });
             });
           });
-          input.value = "> ";
         }
+        resetInputField();
         break;
       /**
        * Close all tabs which match a particular workspace
@@ -211,13 +219,14 @@ if (form != null) {
       case "close":
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           chrome.storage.sync.get([workspace], function (result) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace '" + workspace+ "' does not exist.");
+              addInjectableText(
+                "workspace '" + workspace + "' does not exist."
+              );
               return;
             } else {
               getWindowTabs().then((tabs) => {
@@ -235,9 +244,9 @@ if (form != null) {
               });
             }
           });
-          input.value = "> ";
         }
 
+        resetInputField();
         break;
       /**
        * Closes all tabs and resets with a new tab
@@ -260,21 +269,23 @@ if (form != null) {
       case "delete":
         if (workspace === undefined || workspace === "") {
           addInjectableText("Please enter the name of workspace!");
-          input.value = "> ";
         } else {
           chrome.storage.sync.get([workspace], function (result) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace '" + workspace+ "' does not exist.");
+              addInjectableText(
+                "workspace '" + workspace + "' does not exist."
+              );
               return;
             }
             chrome.storage.sync.remove([workspace], function (result) {
               console.log("result", result);
             });
-            input.value = "> ";
           });
         }
+
+        resetInputField();
         break;
       /**
        * Lists all the workspaces that can be used
@@ -295,7 +306,9 @@ if (form != null) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace '" + workspace+ "' does not exist.");
+              addInjectableText(
+                "workspace '" + workspace + "' does not exist."
+              );
               return;
             }
 
@@ -308,7 +321,7 @@ if (form != null) {
           });
         }
 
-        input.value = "> ";
+        resetInputField();
         break;
       /**
        * Shows all the commands that can be used
@@ -326,12 +339,16 @@ if (form != null) {
           "- list <x> .. list the contents of a workspace x \n\n" +
           "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
         addInjectableText(str);
-        input.value = "> ";
+        resetInputField();
         break;
 
       default:
-        addInjectableText("Command '" + command + "' is not a registered command. \nType 'help' to see what commands are available.");
-        input.value = "> ";
+        addInjectableText(
+          "Command '" +
+            command +
+            "' is not a registered command. \nType 'help' to see what commands are available."
+        );
+        resetInputField();
     }
   });
 }
