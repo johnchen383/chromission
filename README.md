@@ -1,6 +1,8 @@
 # TabFlo
 A chrome extension in progress to improve user workflow
 
+![image](./assets/icon128.png)
+
 Developer's Note:
 - Please employ good commit conventions of the form **type**:<msg>.
 
