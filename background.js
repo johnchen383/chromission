@@ -8,6 +8,7 @@ var command = "";
 
 if (input !== null) {
   input.onkeydown = (e) => {
+    addInjectableText("type 'help' for list of commands!");
     if (e.key === " ") {
       switch (command) {
         case "add":
@@ -312,9 +313,12 @@ if (form != null) {
           "Commands:\n" +
           "- add <x> .. adds current tab to workspace x \n\n" +
           "- close <x> .. closes the workspace x \n\n" +
+          "- open <x> .. opens the workspace x \n\n" +
           "- add-all <x> .. adds all tabs of active window to workspace x \n\n" +
           "- remove <x> .. remove current tab from workspace x \n\n" +
           "- delete <x> .. deletes the workspace x \n\n" +
+          "- list .. list of workspaces  \n\n" +
+          "- list <x> .. list the contents of a workspace x \n\n" +
           "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
         addInjectableText(str);
         input.value = "> ";
