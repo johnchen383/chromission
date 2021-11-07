@@ -44,7 +44,7 @@ if (input !== null) {
       if (input.value.length >= 3) {
         command = command.substring(0, command.length - 1);
       } else {
-        input.value = ">  ";
+        resetInputField();
       }
     } else if (e.key === "Enter") {
       command = "";
@@ -99,9 +99,9 @@ async function getWindowTabs() {
 
 function resetInputField() {
   if (input != null) {
-    input.focus();
     input.value = "> ";
     input.style.color = "white";
+    input.focus();
   }
 }
 
