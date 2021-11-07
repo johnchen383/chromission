@@ -2,7 +2,7 @@
 
 A chrome extension in progress to improve user workflow
 <p align="center">
-  <img src="./assets/logo.png" alt="drawing" width="400"/>
+  <img src="./assets/logo.png" alt="drawing" width="250"/>
 </p>
 
   
