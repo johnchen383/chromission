@@ -1,6 +1,6 @@
 # TabFlo
 
-A chrome extension in progress to improve user workflow
+TabFlo helps you to chug through work and flow through tabs!
 <p align="center">
   <img src="./assets/logo.png" alt="drawing" width="250"/>
 </p>
