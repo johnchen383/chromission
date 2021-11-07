@@ -118,7 +118,7 @@ if (form != null) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace does not exist: " + workspace);
+              addInjectableText("workspace '" + workspace+ "' does not exist.");
               return;
             }
 
@@ -217,7 +217,7 @@ if (form != null) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace does not exist: " + workspace);
+              addInjectableText("workspace '" + workspace+ "' does not exist.");
               return;
             } else {
               getWindowTabs().then((tabs) => {
@@ -266,7 +266,7 @@ if (form != null) {
             let allwebsites = result[workspace];
 
             if (allwebsites === undefined) {
-              addInjectableText("workspace does not exist: " + workspace);
+              addInjectableText("workspace '" + workspace+ "' does not exist.");
               return;
             }
             chrome.storage.sync.remove([workspace], function (result) {
@@ -293,6 +293,11 @@ if (form != null) {
         } else {
           chrome.storage.sync.get([workspace], function (result) {
             let allwebsites = result[workspace];
+
+            if (allwebsites === undefined) {
+              addInjectableText("workspace '" + workspace+ "' does not exist.");
+              return;
+            }
 
             var str = "Sites in workspace: " + workspace + "\n";
             allwebsites.map((site) => {
@@ -325,7 +330,8 @@ if (form != null) {
         break;
 
       default:
-        "INVALID KEY";
+        addInjectableText("Command '" + command + "' is not a registered command. \nType 'help' to see what commands are available.");
+        input.value = "> ";
     }
   });
 }
