@@ -1,8 +1,11 @@
 # TabFlo
+
 A chrome extension in progress to improve user workflow
+<p align="center">
+  <img src="./assets/logo.png" alt="drawing" width="400"/>
+</p>
 
-![image](./assets/logo.png)
-
+  
 Developer's Note:
 - Please employ good commit conventions of the form **type**:<msg>.
 
