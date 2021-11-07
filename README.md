@@ -1,4 +1,4 @@
-# chromission
+# TabFlo
 A chrome extension in progress to improve user workflow
 
 Developer's Note:
