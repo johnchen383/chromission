@@ -136,8 +136,9 @@ if (form != null) {
               );
               return;
             }
-
-            allwebsites.map((website) => window.open(website));
+            allwebsites.map((website) =>
+              website.includes("chrome://") ? null : window.open(website)
+            );
           });
         }
         resetInputField();
@@ -153,7 +154,7 @@ if (form != null) {
             let arrayOfWebsites = [];
 
             for (let i = 0; i < tabs.length; i++) {
-              arrayOfWebsites[i] = tabs[i];
+              arrayOfWebsites[i] = tabs[i].url;
             }
 
             chrome.storage.sync.get([workspace], function (result) {
