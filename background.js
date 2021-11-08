@@ -4,6 +4,7 @@
 const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
+const helpText = document.getElementById("help");
 var command = "";
 
 if (input !== null) {
@@ -57,6 +58,7 @@ if (input !== null) {
   };
 }
 
+toggleHelpVisibility(false);
 resetInputField();
 
 if (injectable != null) {
@@ -110,6 +112,19 @@ function resetInputField() {
 }
 
 /**
+ * Toggle visibility of help text
+ */
+function toggleHelpVisibility(isVisible) {
+  if (help != null) {
+    if (!isVisible) {
+      help.style.display = "none";
+    } else {
+      help.style.display = "block";
+    }
+  }
+}
+
+/**
  * Add form handler
  */
 if (form != null) {
@@ -142,6 +157,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Adds all tabs of active window to a particular workspace
@@ -167,6 +183,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
 
       /**
@@ -189,6 +206,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Removes active tab from a particular workspace
@@ -217,6 +235,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Close all tabs which match a particular workspace
@@ -252,6 +271,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Closes all tabs and resets with a new tab
@@ -291,6 +311,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Lists all the workspaces that can be used
@@ -327,23 +348,13 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Shows all the commands that can be used
        */
       case "help":
-        var str =
-          "Commands:\n" +
-          "- add <x> .. adds current tab to workspace x \n\n" +
-          "- close <x> .. closes the workspace x \n\n" +
-          "- open <x> .. opens the workspace x \n\n" +
-          "- add-all <x> .. adds all tabs of active window to workspace x \n\n" +
-          "- remove <x> .. remove current tab from workspace x \n\n" +
-          "- delete <x> .. deletes the workspace x \n\n" +
-          "- list .. list of workspaces  \n\n" +
-          "- list <x> .. list the contents of a workspace x \n\n" +
-          "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
-        addInjectableText(str);
+        toggleHelpVisibility(true);
         resetInputField();
         break;
 
@@ -354,6 +365,7 @@ if (form != null) {
             "' is not a registered command. \nType 'help' to see what commands are available."
         );
         resetInputField();
+        toggleHelpVisibility(false);
     }
   });
 }
