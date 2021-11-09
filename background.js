@@ -5,11 +5,14 @@ const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
 const helpText = document.getElementById("help");
+const secondaryText = document.getElementById("secondary");
+
 var command = "";
 
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
+    toggleSecondaryVisibility(false);
     //console.log(command);
     if (e.key === " ") {
       switch (command) {
@@ -59,6 +62,7 @@ if (input !== null) {
 }
 
 toggleHelpVisibility(false);
+toggleSecondaryVisibility(false);
 resetInputField();
 
 if (injectable != null) {
@@ -68,6 +72,11 @@ if (injectable != null) {
 function addInjectableText(text) {
   injectable.innerText = text;
   injectable.style.display = "block";
+}
+
+function addSecondaryText(text) {
+  secondaryText.innerText = text;
+  secondaryText.style.display = "block";
 }
 
 /**
@@ -115,11 +124,24 @@ function resetInputField() {
  * Toggle visibility of help text
  */
 function toggleHelpVisibility(isVisible) {
-  if (help != null) {
+  if (helpText != null) {
     if (!isVisible) {
-      help.style.display = "none";
+      helpText.style.display = "none";
     } else {
-      help.style.display = "block";
+      helpText.style.display = "block";
+    }
+  }
+}
+
+/**
+ * Toggle visibility of secondary text
+ */
+function toggleSecondaryVisibility(isVisible){
+  if (secondaryText != null) {
+    if (!isVisible) {
+      secondaryText.style.display = "none";
+    } else {
+      secondaryText.style.display = "block";
     }
   }
 }
@@ -320,12 +342,14 @@ if (form != null) {
         if (workspace === undefined || workspace === "") {
           chrome.storage.sync.get(null, function (items) {
             var allKeys = Object.entries(items);
-            var str = "Workspaces:\n";
+            var str = "";
             allKeys.map((key) => {
               var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
               str += s;
             });
-            addInjectableText(str);
+            addInjectableText("Workspaces:");
+            addSecondaryText(str);
+            
           });
         } else {
           chrome.storage.sync.get([workspace], function (result) {
@@ -338,12 +362,13 @@ if (form != null) {
               return;
             }
 
-            var str = "Sites in workspace: " + workspace + "\n";
+            var str = "";
             allwebsites.map((site) => {
               var s = "- " + site + "\n";
               str += s;
             });
-            addInjectableText(str);
+            addInjectableText("Sites in workspace: " + workspace);
+            addSecondaryText(str);
           });
         }
 
