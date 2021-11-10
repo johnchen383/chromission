@@ -55,7 +55,8 @@ if (input !== null) {
       }
     } else if (e.key === "Enter") {
       command = "";
-    } else {
+    } else if (e.key.length === 1) {
+      // console.log("log", /[a-zA-Z]/.test(e.key));
       command += e.key;
     }
   };
@@ -113,7 +114,7 @@ async function getWindowTabs() {
 
 function resetInputField() {
   if (input != null) {
-    console.log(input.value, input.value.length);
+    // console.log(input.value, input.value.length);
     input.value = "> ";
     input.style.color = "white";
     input.focus();
@@ -136,7 +137,7 @@ function toggleHelpVisibility(isVisible) {
 /**
  * Toggle visibility of secondary text
  */
-function toggleSecondaryVisibility(isVisible){
+function toggleSecondaryVisibility(isVisible) {
   if (secondaryText != null) {
     if (!isVisible) {
       secondaryText.style.display = "none";
@@ -349,7 +350,6 @@ if (form != null) {
             });
             addInjectableText("Workspaces:");
             addSecondaryText(str);
-            
           });
         } else {
           chrome.storage.sync.get([workspace], function (result) {
