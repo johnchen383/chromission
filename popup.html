@@ -12,14 +12,14 @@
   <title>Document</title>
 </head>
 
-<body style="margin: 0">
+<body style="margin: 0; background-color: black;">
   <div style="background-color: black; width: 300px; padding: 10px">
     <form id="myForm" style="height: 60px">
-      <label for="commandName" style="color: antiquewhite; font-weight: 400; font-size: 18px">command:
+      <label for="commandName" style="color: #ed7d31; font-weight: 400; font-size: 20px">command:
       </label><br />
       <input type="text" id="commandName" name="commandName" style="
             width: 290px;
-            font-size: 22px;
+            font-size: 20px;
             margin-top: 10px;
             background-color: black;
             color: white;
@@ -28,7 +28,58 @@
           " />
     </form>
   </div>
-  <div id="injectable" style="background-color: black; width: 300px; padding: 10px; color: plum"></div>
+  <div style="padding: 10px;">
+    <div id="injectable" style="background-color: black; width: 300px;  color: #ed7d31"></div>
+    <div id="secondary" style="background-color: black; width: 300px; color: #ffc000"></div>
+    <div id="help" style="background-color: black; width: 300px;  color: #ed7d31">
+      <table>
+        <tr style="color: aliceblue;">
+          <th style="width:30%">Command</th>
+          <th style="width:70%">Action</th>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">add <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">adds current tab to workspace <span
+              style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">close <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">closes the workspace <span style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">open <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">opens the workspace <span style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">add-all <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">adds all tabs of active window to workspace <span
+              style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">remove <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">removes current tab from workspace <span
+              style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">delete <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">deletes the workspace <span style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">list</td>
+          <td style="width:70%; color:#ffc000;">list the workspaces stored</td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">list <span style="color: aliceblue;">[ws]</span></td>
+          <td style="width:70%; color:#ffc000;">list the sites stored in the workspace <span
+              style="color: aliceblue;">[ws]</span></td>
+        </tr>
+        <tr>
+          <td style="width:30%; vertical-align:top;">reset</td>
+          <td style="width:70%; color:#ffc000;">resets the browser window with a fresh tab</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </body>
 <script src="background.js"></script>
 

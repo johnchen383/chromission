@@ -4,12 +4,16 @@
 const form = document.getElementById("myForm");
 const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
+const helpText = document.getElementById("help");
+const secondaryText = document.getElementById("secondary");
+
 var command = "";
 
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
-    // console.log(command);
+    toggleSecondaryVisibility(false);
+    //console.log(command);
     if (e.key === " ") {
       switch (command) {
         case "add":
@@ -58,6 +62,8 @@ if (input !== null) {
   };
 }
 
+toggleHelpVisibility(false);
+toggleSecondaryVisibility(false);
 resetInputField();
 
 if (injectable != null) {
@@ -67,6 +73,11 @@ if (injectable != null) {
 function addInjectableText(text) {
   injectable.innerText = text;
   injectable.style.display = "block";
+}
+
+function addSecondaryText(text) {
+  secondaryText.innerText = text;
+  secondaryText.style.display = "block";
 }
 
 /**
@@ -111,6 +122,32 @@ function resetInputField() {
 }
 
 /**
+ * Toggle visibility of help text
+ */
+function toggleHelpVisibility(isVisible) {
+  if (helpText != null) {
+    if (!isVisible) {
+      helpText.style.display = "none";
+    } else {
+      helpText.style.display = "block";
+    }
+  }
+}
+
+/**
+ * Toggle visibility of secondary text
+ */
+function toggleSecondaryVisibility(isVisible) {
+  if (secondaryText != null) {
+    if (!isVisible) {
+      secondaryText.style.display = "none";
+    } else {
+      secondaryText.style.display = "block";
+    }
+  }
+}
+
+/**
  * Add form handler
  */
 if (form != null) {
@@ -143,6 +180,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Adds all tabs of active window to a particular workspace
@@ -168,6 +206,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
 
       /**
@@ -190,6 +229,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Removes active tab from a particular workspace
@@ -218,6 +258,7 @@ if (form != null) {
           });
         }
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Close all tabs which match a particular workspace
@@ -253,6 +294,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Closes all tabs and resets with a new tab
@@ -292,6 +334,7 @@ if (form != null) {
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Lists all the workspaces that can be used
@@ -300,12 +343,13 @@ if (form != null) {
         if (workspace === undefined || workspace === "") {
           chrome.storage.sync.get(null, function (items) {
             var allKeys = Object.entries(items);
-            var str = "Workspaces:\n";
+            var str = "";
             allKeys.map((key) => {
               var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
               str += s;
             });
-            addInjectableText(str);
+            addInjectableText("Workspaces:");
+            addSecondaryText(str);
           });
         } else {
           chrome.storage.sync.get([workspace], function (result) {
@@ -318,33 +362,24 @@ if (form != null) {
               return;
             }
 
-            var str = "Sites in workspace: " + workspace + "\n";
+            var str = "";
             allwebsites.map((site) => {
               var s = "- " + site + "\n";
               str += s;
             });
-            addInjectableText(str);
+            addInjectableText("Sites in workspace: " + workspace);
+            addSecondaryText(str);
           });
         }
 
         resetInputField();
+        toggleHelpVisibility(false);
         break;
       /**
        * Shows all the commands that can be used
        */
       case "help":
-        var str =
-          "Commands:\n" +
-          "- add <x> .. adds current tab to workspace x \n\n" +
-          "- close <x> .. closes the workspace x \n\n" +
-          "- open <x> .. opens the workspace x \n\n" +
-          "- add-all <x> .. adds all tabs of active window to workspace x \n\n" +
-          "- remove <x> .. remove current tab from workspace x \n\n" +
-          "- delete <x> .. deletes the workspace x \n\n" +
-          "- list .. list of workspaces  \n\n" +
-          "- list <x> .. list the contents of a workspace x \n\n" +
-          "- reset  .. resets the current window by deleting all tabs and creating a new tab \n";
-        addInjectableText(str);
+        toggleHelpVisibility(true);
         resetInputField();
         break;
 
@@ -355,6 +390,7 @@ if (form != null) {
             "' is not a registered command. \nType 'help' to see what commands are available."
         );
         resetInputField();
+        toggleHelpVisibility(false);
     }
   });
 }
