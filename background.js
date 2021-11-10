@@ -343,6 +343,16 @@ if (form != null) {
         if (workspace === undefined || workspace === "") {
           chrome.storage.sync.get(null, function (items) {
             var allKeys = Object.entries(items);
+
+            if (allKeys.length == 0) {
+              //no workspaces to list
+              addInjectableText("No workspaces stored.");
+              addSecondaryText(
+                "To add to a workspace, use add or add-all commands"
+              );
+              return;
+            }
+
             var str = "";
             allKeys.map((key) => {
               var s = "- " + key[0] + "\t (stored: " + key[1].length + ")\n";
@@ -358,6 +368,15 @@ if (form != null) {
             if (allwebsites === undefined) {
               addInjectableText(
                 "workspace '" + workspace + "' does not exist."
+              );
+              return;
+            }
+
+            if (allwebsites.length == 0) {
+              //no websites to list
+              addInjectableText("No websites stored in workspace " + workspace);
+              addSecondaryText(
+                "To add to a workspace, use add or add-all commands"
               );
               return;
             }
@@ -385,10 +404,9 @@ if (form != null) {
 
       default:
         addInjectableText(
-          "Command '" +
-            command +
-            "' is not a registered command. \nType 'help' to see what commands are available."
+          "Command '" + command + "' is not a registered command."
         );
+        addSecondaryText("Type 'help' to see what commands are available");
         resetInputField();
         toggleHelpVisibility(false);
     }
