@@ -9,7 +9,7 @@ var command = "";
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
-    //console.log(command);
+    // console.log(command);
     if (e.key === " ") {
       switch (command) {
         case "add":
@@ -51,7 +51,8 @@ if (input !== null) {
       }
     } else if (e.key === "Enter") {
       command = "";
-    } else {
+    } else if (e.key.length === 1) {
+      // console.log("log", /[a-zA-Z]/.test(e.key));
       command += e.key;
     }
   };
@@ -102,7 +103,7 @@ async function getWindowTabs() {
 
 function resetInputField() {
   if (input != null) {
-    console.log(input.value, input.value.length);
+    // console.log(input.value, input.value.length);
     input.value = "> ";
     input.style.color = "white";
     input.focus();
