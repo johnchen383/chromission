@@ -1,3 +1,22 @@
+/*
+ * api calls
+/*
+ *   types are : General, knock-knock, programming
+ *
+ *
+ */
+function callAPI(type) {
+  if (type) {
+    return axios.get(
+      `https://us-central1-dadsofunny.cloudfunctions.net/DadJokes/random/type/${type}`
+    );
+  } else {
+    return axios.get(
+      `https://us-central1-dadsofunny.cloudfunctions.net/DadJokes/random/jokes`
+    );
+  }
+}
+
 /**
  * Get .html elements
  */
@@ -13,7 +32,17 @@ if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-    //console.log(command);
+
+    if (command === "hel" && e.key === "p") {
+      input.style.color = "turquoise";
+    }
+    if (command === "lis" && e.key === "t") {
+      input.style.color = "orange";
+    }
+    if (command === "rese" && e.key === "t") {
+      input.style.color = "red";
+    }
+
     if (e.key === " ") {
       switch (command) {
         case "add":
@@ -29,15 +58,6 @@ if (input !== null) {
           input.style.color = "LimeGreen";
           break;
         case "delete":
-          input.style.color = "red";
-          break;
-        case "list":
-          input.style.color = "orange";
-          break;
-        case "help":
-          input.style.color = "turquoise";
-          break;
-        case "reset":
           input.style.color = "red";
           break;
         case "close":
@@ -402,6 +422,51 @@ if (form != null) {
         resetInputField();
         break;
 
+      case "prog-joke":
+        callAPI("programming")
+          .then((res) => {
+            const joke = res.data[0];
+            addInjectableText(joke.setup + "\n" + joke.punchline);
+            resetInputField();
+            toggleHelpVisibility(false);
+          })
+          .catch((err) => {
+            addInjectableText("Sorry! Something went wrong! Try Again");
+            resetInputField();
+            toggleHelpVisibility(false);
+          });
+        break;
+
+      case "knock-knock":
+        callAPI("knock-knock")
+          .then((res) => {
+            const joke = res.data[0];
+            console.log(joke);
+            addInjectableText(joke.setup + "\n" + joke.punchline);
+            resetInputField();
+            toggleHelpVisibility(false);
+          })
+          .catch((err) => {
+            addInjectableText("Sorry! Something went wrong! Try Again");
+            resetInputField();
+            toggleHelpVisibility(false);
+          });
+        break;
+      case "gimme-joke":
+        callAPI("general")
+          .then((res) => {
+            const joke = res.data[0];
+            console.log(joke);
+            addInjectableText(joke.setup + "\n" + joke.punchline);
+            resetInputField();
+            toggleHelpVisibility(false);
+          })
+          .catch((err) => {
+            addInjectableText("Sorry! Something went wrong! Try Again");
+            resetInputField();
+            toggleHelpVisibility(false);
+          });
+        break;
       default:
         addInjectableText(
           "Command '" + command + "' is not a registered command."
