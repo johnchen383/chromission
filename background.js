@@ -27,12 +27,14 @@ const helpText = document.getElementById("help");
 const secondaryText = document.getElementById("secondary");
 const gif = document.getElementById("texting-gif");
 var command = "";
+var arrayOfCommands = [];
+var indexOfCommand = 1;
 
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-
+    // console.log(command);
     if (command === "hel" && e.key === "p") {
       input.style.color = "turquoise";
     }
@@ -54,9 +56,19 @@ if (input !== null) {
         case "remove":
           input.style.color = "LimeGreen";
           break;
+        case "help":
+          input.style.color = "turquoise";
+          break;
         case "add-all":
           input.style.color = "LimeGreen";
           break;
+        case "list":
+          input.style.color = "orange";
+          break;
+        case "reset":
+          input.style.color = "red";
+          break;
+
         case "delete":
           input.style.color = "red";
           break;
@@ -74,10 +86,35 @@ if (input !== null) {
         resetInputField();
       }
     } else if (e.key === "Enter") {
+      arrayOfCommands.push(command);
       command = "";
     } else if (e.key.length === 1) {
       // console.log("log", /[a-zA-Z]/.test(e.key));
       command += e.key;
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (arrayOfCommands.length > 0) {
+        let indexToGet = arrayOfCommands.length - indexOfCommand;
+        command = arrayOfCommands[indexToGet];
+        input.value = "> " + arrayOfCommands[indexToGet];
+        if (indexOfCommand < arrayOfCommands.length) {
+          indexOfCommand += 1;
+        }
+      }
+      console.log(command);
+    } else if (e.key === "ArrowDown") {
+      if (indexOfCommand > 1) {
+        indexOfCommand -= 1;
+
+        let indexToGet = arrayOfCommands.length - indexOfCommand;
+        if (arrayOfCommands[indexToGet] != undefined) {
+          input.value = "> " + arrayOfCommands[indexToGet];
+          command = arrayOfCommands[indexToGet];
+        }
+      } else {
+        input.value = "> ";
+        command = "";
+      }
     }
   };
 }
