@@ -467,7 +467,7 @@ if (form != null) {
             toggleGIFvisibility(false);
           });
         break;
-      case "gimme-joke":
+      case "random-joke":
         toggleGIFvisibility(true);
         toggleHelpVisibility(false);
         callAPI("general")

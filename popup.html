@@ -1,33 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <script src="./node_modules/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-  </head>
 
-  <body style="margin: 0; background-color: black">
-    <div style="background-color: black; width: 300px; padding: 10px">
-      <form id="myForm" style="height: 60px">
-        <label
-          for="commandName"
-          style="color: #ed7d31; font-weight: 400; font-size: 20px"
-          >command: </label
-        ><br />
-        <input
-          type="text"
-          id="commandName"
-          name="commandName"
-          style="
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="./node_modules/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body style="margin: 0; background-color: black">
+  <div style="background-color: black; width: 300px; padding: 10px">
+    <form id="myForm" style="height: 60px">
+      <label for="commandName" style="color: #ed7d31; font-weight: 400; font-size: 20px">command: </label><br />
+      <input type="text" id="commandName" name="commandName" style="
             width: 290px;
             font-size: 20px;
             margin-top: 10px;
@@ -35,122 +26,116 @@
             color: white;
             border: none;
             font-weight: 100;
-          "
-        />
-      </form>
+          " />
+    </form>
+  </div>
+  <div style="padding: 10px">
+    <div id="injectable" style="background-color: black; width: 300px; color: #ed7d31"></div>
+    <div id="secondary" style="background-color: black; width: 300px; color: #ffc000"></div>
+    <div id="help" style="background-color: black; width: 300px; color: #ed7d31">
+      <table>
+        <tr style="color: aliceblue">
+          <th style="width: 30%">Command</th>
+          <th style="width: 70%">Action</th>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            add <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            adds current tab to workspace
+            <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            close <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            closes the workspace <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            open <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            opens the workspace <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            add-all <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            adds all tabs of active window to workspace
+            <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            remove <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            removes current tab from workspace
+            <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            delete <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            deletes the workspace <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">list</td>
+          <td style="width: 70%; color: #ffc000">
+            list the workspaces stored
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">
+            list <span style="color: aliceblue">[x]</span>
+          </td>
+          <td style="width: 70%; color: #ffc000">
+            list the sites stored in the workspace
+            <span style="color: aliceblue">[x]</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">reset</td>
+          <td style="width: 70%; color: #ffc000">
+            resets the browser window with a fresh tab
+          </td>
+        </tr>
+      </table>
+      <hr style="border: 1px solid white;"/>
+      <table>
+        <tr>
+          <td style="width: 30%; vertical-align: top">prog-joke</td>
+          <td style="width: 70%; color: #ffc000">
+            programming joke - for all the nerds out there B)
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">knock-knock</td>
+          <td style="width: 70%; color: #ffc000">
+            knock-knock joke - can't beat the classics ;)
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 30%; vertical-align: top">random-joke</td>
+          <td style="width: 70%; color: #ffc000">random joke to lighten your day :)</td>
+        </tr>
+      </table>
     </div>
-    <div style="padding: 10px">
-      <div
-        id="injectable"
-        style="background-color: black; width: 300px; color: #ed7d31"
-      ></div>
-      <div
-        id="secondary"
-        style="background-color: black; width: 300px; color: #ffc000"
-      ></div>
-      <div
-        id="help"
-        style="background-color: black; width: 300px; color: #ed7d31"
-      >
-        <table>
-          <tr style="color: aliceblue">
-            <th style="width: 30%">Command</th>
-            <th style="width: 70%">Action</th>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              add <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              adds current tab to workspace
-              <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              close <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              closes the workspace <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              open <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              opens the workspace <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              add-all <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              adds all tabs of active window to workspace
-              <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              remove <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              removes current tab from workspace
-              <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              delete <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              deletes the workspace <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">list</td>
-            <td style="width: 70%; color: #ffc000">
-              list the workspaces stored
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">
-              list <span style="color: aliceblue">[x]</span>
-            </td>
-            <td style="width: 70%; color: #ffc000">
-              list the sites stored in the workspace
-              <span style="color: aliceblue">[x]</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">reset</td>
-            <td style="width: 70%; color: #ffc000">
-              resets the browser window with a fresh tab
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">prog-joke</td>
-            <td style="width: 70%; color: #ffc000">
-              super funny programming joke
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">knock-knock</td>
-            <td style="width: 70%; color: #ffc000">
-              a knock-knock joke --- CLASSIC!
-            </td>
-          </tr>
-          <tr>
-            <td style="width: 30%; vertical-align: top">gimme-joke</td>
-            <td style="width: 70%; color: #ffc000">random joke</td>
-          </tr>
-        </table>
-      </div>
-      <div id="texting-gif" style="padding-top: 10px; width: 100%; display: none; text-align: center;">
-        <img style="width: 10%;" src="./assets/indicator.gif" alt="progress indicator" />
-      </div>
+    <div id="texting-gif" style="padding-top: 10px; width: 100%; display: none; text-align: center;">
+      <img style="width: 10%;" src="./assets/indicator.gif" alt="progress indicator" />
     </div>
-  </body>
-  <script src="background.js"></script>
+  </div>
+</body>
+<script src="background.js"></script>
+
 </html>
