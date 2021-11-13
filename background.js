@@ -29,12 +29,22 @@ const gif = document.getElementById("texting-gif");
 var command = "";
 var arrayOfCommands = [];
 var indexOfCommand = 1;
-
+var allCommands = [
+  "add",
+  "open",
+  "add-all",
+  "remove",
+  "help",
+  "list",
+  "reset",
+  "delete",
+  "close",
+];
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-    // console.log(command);
+    // console.log(e.key);
     if (command === "hel" && e.key === "p") {
       input.style.color = "turquoise";
     }
@@ -44,7 +54,6 @@ if (input !== null) {
     if (command === "rese" && e.key === "t") {
       input.style.color = "red";
     }
-
     if (e.key === " ") {
       switch (command) {
         case "add":
@@ -79,6 +88,7 @@ if (input !== null) {
     }
     if (e.key === "Backspace") {
       // console.log(command, input.value.length);
+
       if (input.value.length >= 3) {
         command = command.substring(0, command.length - 1);
       } else {
@@ -101,7 +111,7 @@ if (input !== null) {
           indexOfCommand += 1;
         }
       }
-      console.log(command);
+      // console.log(command);
     } else if (e.key === "ArrowDown") {
       if (indexOfCommand > 1) {
         indexOfCommand -= 1;
@@ -114,6 +124,16 @@ if (input !== null) {
       } else {
         input.value = "> ";
         command = "";
+      }
+    } else if ((e.key = "Tab")) {
+      e.preventDefault();
+      let changedCommand = allCommands.find((commandName) =>
+        commandName.includes(command)
+      );
+      if (changedCommand !== undefined) {
+        console.log(changedCommand, command);
+        input.value = "> " + changedCommand;
+        command = changedCommand;
       }
     }
   };
