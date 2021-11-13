@@ -437,7 +437,8 @@ if (form != null) {
         callAPI("programming")
           .then((res) => {
             const joke = res.data[0];
-            addInjectableText(joke.setup + "\n" + joke.punchline);
+            addInjectableText(joke.setup);
+            addSecondaryText(joke.punchline);
             resetInputField();
             toggleGIFvisibility(false);
           })
@@ -455,7 +456,8 @@ if (form != null) {
           .then((res) => {
             const joke = res.data[0];
             console.log(joke);
-            addInjectableText(joke.setup + "\n" + joke.punchline);
+            addInjectableText(joke.setup);
+            addSecondaryText(joke.punchline);
             resetInputField();
             toggleGIFvisibility(false);
           })
@@ -472,7 +474,8 @@ if (form != null) {
           .then((res) => {
             const joke = res.data[0];
             console.log(joke);
-            addInjectableText(joke.setup + "\n" + joke.punchline);
+            addInjectableText(joke.setup);
+            addSecondaryText(joke.punchline);
             resetInputField();
             toggleGIFvisibility(false);
           })
