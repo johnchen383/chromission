@@ -3,5 +3,9 @@ input:focus {
 }
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+img {
+  max-width: 20%;
+  max-height: 20%;
 }

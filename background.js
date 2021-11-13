@@ -25,7 +25,7 @@ const input = document.getElementById("commandName");
 const injectable = document.getElementById("injectable");
 const helpText = document.getElementById("help");
 const secondaryText = document.getElementById("secondary");
-
+const gif = document.getElementById("texting-gif");
 var command = "";
 
 if (input !== null) {
@@ -150,6 +150,15 @@ function toggleHelpVisibility(isVisible) {
       helpText.style.display = "none";
     } else {
       helpText.style.display = "block";
+    }
+  }
+}
+function toggleGIFvisibility(isVisible) {
+  if (gif != null) {
+    if (!isVisible) {
+      gif.style.display = "none";
+    } else {
+      gif.style.display = "block";
     }
   }
 }
@@ -423,48 +432,54 @@ if (form != null) {
         break;
 
       case "prog-joke":
+        toggleGIFvisibility(true);
+        toggleHelpVisibility(false);
         callAPI("programming")
           .then((res) => {
             const joke = res.data[0];
             addInjectableText(joke.setup + "\n" + joke.punchline);
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           })
           .catch((err) => {
             addInjectableText("Sorry! Something went wrong! Try Again");
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           });
         break;
 
       case "knock-knock":
+        toggleGIFvisibility(true);
+        toggleHelpVisibility(false);
         callAPI("knock-knock")
           .then((res) => {
             const joke = res.data[0];
             console.log(joke);
             addInjectableText(joke.setup + "\n" + joke.punchline);
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           })
           .catch((err) => {
             addInjectableText("Sorry! Something went wrong! Try Again");
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           });
         break;
       case "gimme-joke":
+        toggleGIFvisibility(true);
+        toggleHelpVisibility(false);
         callAPI("general")
           .then((res) => {
             const joke = res.data[0];
             console.log(joke);
             addInjectableText(joke.setup + "\n" + joke.punchline);
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           })
           .catch((err) => {
             addInjectableText("Sorry! Something went wrong! Try Again");
             resetInputField();
-            toggleHelpVisibility(false);
+            toggleGIFvisibility(false);
           });
         break;
       default:
