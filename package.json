@@ -1,0 +1,23 @@
+{
+  "name": "tabflo",
+  "version": "1.0.0",
+  "description": "get the most out of your chrome",
+  "main": "\u001b[A\u001b[B",
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnchen383/chromission.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnchen383/chromission/issues"
+  },
+  "homepage": "https://github.com/johnchen383/chromission#readme"
+}
