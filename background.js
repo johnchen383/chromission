@@ -32,27 +32,31 @@ var indexOfCommand = 1;
 const allCommands = [
   "add",
   "open",
+  "list",
   "add-all",
   "r",
   "re",
   "remove",
   "help",
-  "list",
   "reset",
   "delete",
   "close",
   "random-joke",
   "prog-joke",
-  "knock-knock"
+  "knock-knock",
 ];
-const midPrompts = [ "r", "re", "add" ];
-const midPromptVals = [ "reset | remove | random-joke", "reset | remove", "add | add-all"];
+const midPrompts = ["r", "re", "add"];
+const midPromptVals = [
+  "reset | remove | random-joke",
+  "reset | remove",
+  "add | add-all",
+];
 
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-    // console.log(e.key);
+    console.log(e.key);
     if (command === "hel" && e.key === "p") {
       input.style.color = "turquoise";
     }
@@ -93,7 +97,11 @@ if (input !== null) {
           break;
       }
     }
-    if (e.key === "Backspace") {
+    if (e.ctrlKey && e.key === "Backspace") {
+      //e.preventDefault();
+      console.log("herrrrrrrrrrrrr");
+      command = "";
+    } else if (e.key === "Backspace") {
       // console.log(command, input.value.length);
 
       if (input.value.length >= 3) {
@@ -132,28 +140,28 @@ if (input !== null) {
         input.value = "> ";
         command = "";
       }
-    } else if ((e.key == "Tab")) {
+    } else if (e.key === "Tab") {
       e.preventDefault();
       let changedCommand = allCommands.find((commandName) => {
         //check prefixes
-        if (commandName.split(command)[0] == ""){
+        if (commandName.split(command)[0] == "") {
           return true;
         } else {
           return false;
         }
-      }
-      );
+      });
       if (changedCommand !== undefined) {
         input.value = "> " + changedCommand;
         command = changedCommand;
 
-        for (i = 0; i < 3; i++){
-          console.log(command)
-          if (midPrompts[i] == command){
+        for (i = 0; i < 3; i++) {
+          console.log(command);
+          if (midPrompts[i] == command) {
             addInjectableText(midPromptVals[i]);
           }
         }
       }
+      console.log(command);
     }
   };
 }
@@ -218,7 +226,7 @@ function resetInputField() {
 
 /**
  * Toggle visibility of help text
- * @param {boolean} isVisible 
+ * @param {boolean} isVisible
  */
 function toggleHelpVisibility(isVisible) {
   if (helpText != null) {
@@ -232,7 +240,7 @@ function toggleHelpVisibility(isVisible) {
 
 /**
  * toggle visibility of GIF indicator
- * @param {boolean} isVisible 
+ * @param {boolean} isVisible
  */
 function toggleGIFvisibility(isVisible) {
   if (gif != null) {
@@ -246,7 +254,7 @@ function toggleGIFvisibility(isVisible) {
 
 /**
  * Toggle visibility of secondary text
- * @param {boolean} isVisible 
+ * @param {boolean} isVisible
  */
 function toggleSecondaryVisibility(isVisible) {
   if (secondaryText != null) {
@@ -267,7 +275,7 @@ if (form != null) {
     const toBeInserted = input.value.split("> ", 2)[1];
     let [command, workspace] = toBeInserted.split(" ");
     injectable.style.display = "none";
-
+    console.log("switch=", toBeInserted);
     switch (command) {
       /**
        * Open all tabs from a particular workspace
@@ -568,7 +576,9 @@ if (form != null) {
           });
         break;
       case "joke":
-        addInjectableText("Want a joke? We've got plenty! Type one of the commands below.");
+        addInjectableText(
+          "Want a joke? We've got plenty! Type one of the commands below."
+        );
         addSecondaryText("random-joke | prog-joke | knock-knock");
         resetInputField();
         toggleHelpVisibility(false);
