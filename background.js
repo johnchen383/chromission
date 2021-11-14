@@ -134,7 +134,7 @@ if (input !== null) {
         input.value = "> ";
         command = "";
       }
-    } else if ((e.key = "Tab")) {
+    } else if ((e.key == "Tab")) {
       e.preventDefault();
       let changedCommand = allCommands.find((commandName) => {
         //check prefixes
