@@ -29,17 +29,29 @@ const gif = document.getElementById("texting-gif");
 var command = "";
 var arrayOfCommands = [];
 var indexOfCommand = 1;
-var allCommands = [
+const allCommands = [
   "add",
   "open",
   "list",
   "add-all",
+  "r",
+  "re",
   "remove",
   "help",
   "reset",
   "delete",
   "close",
+  "random-joke",
+  "prog-joke",
+  "knock-knock",
 ];
+const midPrompts = ["r", "re", "add"];
+const midPromptVals = [
+  "reset | remove | random-joke",
+  "reset | remove",
+  "add | add-all",
+];
+
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
@@ -77,7 +89,6 @@ if (input !== null) {
         case "reset":
           input.style.color = "red";
           break;
-
         case "delete":
           input.style.color = "red";
           break;
@@ -131,13 +142,24 @@ if (input !== null) {
       }
     } else if (e.key === "Tab") {
       e.preventDefault();
-      let changedCommand = allCommands.find((commandName) =>
-        commandName.includes(command)
-      );
+      let changedCommand = allCommands.find((commandName) => {
+        //check prefixes
+        if (commandName.split(command)[0] == "") {
+          return true;
+        } else {
+          return false;
+        }
+      });
       if (changedCommand !== undefined) {
-        console.log(changedCommand, command);
         input.value = "> " + changedCommand;
         command = changedCommand;
+
+        for (i = 0; i < 3; i++) {
+          console.log(command);
+          if (midPrompts[i] == command) {
+            addInjectableText(midPromptVals[i]);
+          }
+        }
       }
       console.log(command);
     }
@@ -193,7 +215,6 @@ async function getWindowTabs() {
 /**
  * Reset the input field
  */
-
 function resetInputField() {
   if (input != null) {
     // console.log(input.value, input.value.length);
@@ -205,6 +226,7 @@ function resetInputField() {
 
 /**
  * Toggle visibility of help text
+ * @param {boolean} isVisible
  */
 function toggleHelpVisibility(isVisible) {
   if (helpText != null) {
@@ -215,6 +237,11 @@ function toggleHelpVisibility(isVisible) {
     }
   }
 }
+
+/**
+ * toggle visibility of GIF indicator
+ * @param {boolean} isVisible
+ */
 function toggleGIFvisibility(isVisible) {
   if (gif != null) {
     if (!isVisible) {
@@ -227,6 +254,7 @@ function toggleGIFvisibility(isVisible) {
 
 /**
  * Toggle visibility of secondary text
+ * @param {boolean} isVisible
  */
 function toggleSecondaryVisibility(isVisible) {
   if (secondaryText != null) {
@@ -546,6 +574,14 @@ if (form != null) {
             resetInputField();
             toggleGIFvisibility(false);
           });
+        break;
+      case "joke":
+        addInjectableText(
+          "Want a joke? We've got plenty! Type one of the commands below."
+        );
+        addSecondaryText("random-joke | prog-joke | knock-knock");
+        resetInputField();
+        toggleHelpVisibility(false);
         break;
       default:
         addInjectableText(
