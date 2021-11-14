@@ -67,39 +67,11 @@ if (input !== null) {
       input.style.color = "red";
     }
     if (e.key === " ") {
-      switch (command) {
-        case "add":
-          input.style.color = "LimeGreen";
-          break;
-        case "open":
-          input.style.color = "gold";
-          break;
-        case "remove":
-          input.style.color = "LimeGreen";
-          break;
-        case "help":
-          input.style.color = "turquoise";
-          break;
-        case "add-all":
-          input.style.color = "LimeGreen";
-          break;
-        case "list":
-          input.style.color = "orange";
-          break;
-        case "reset":
-          input.style.color = "red";
-          break;
-        case "delete":
-          input.style.color = "red";
-          break;
-        case "close":
-          input.style.color = "gold";
-          break;
-      }
+      colourField();
     }
     if (e.ctrlKey && e.key === "Backspace") {
       //e.preventDefault();
-      console.log("herrrrrrrrrrrrr");
+      colourField();
       command = "";
     } else if (e.key === "Backspace") {
       // console.log(command, input.value.length);
@@ -122,6 +94,7 @@ if (input !== null) {
         let indexToGet = arrayOfCommands.length - indexOfCommand;
         command = arrayOfCommands[indexToGet];
         input.value = "> " + arrayOfCommands[indexToGet];
+        colourField();
         if (indexOfCommand < arrayOfCommands.length) {
           indexOfCommand += 1;
         }
@@ -130,11 +103,11 @@ if (input !== null) {
     } else if (e.key === "ArrowDown") {
       if (indexOfCommand > 1) {
         indexOfCommand -= 1;
-
         let indexToGet = arrayOfCommands.length - indexOfCommand;
         if (arrayOfCommands[indexToGet] != undefined) {
           input.value = "> " + arrayOfCommands[indexToGet];
           command = arrayOfCommands[indexToGet];
+          colourField();
         }
       } else {
         input.value = "> ";
@@ -153,6 +126,7 @@ if (input !== null) {
       if (changedCommand !== undefined) {
         input.value = "> " + changedCommand;
         command = changedCommand;
+        colourField();
 
         for (i = 0; i < 3; i++) {
           console.log(command);
@@ -210,6 +184,43 @@ async function getWindowTabs() {
       resolve(tab);
     })
   );
+}
+
+/**
+ * Colour the input field
+ */
+function colourField(){
+  switch (command) {
+    case "add":
+      input.style.color = "LimeGreen";
+      break;
+    case "open":
+      input.style.color = "gold";
+      break;
+    case "remove":
+      input.style.color = "LimeGreen";
+      break;
+    case "help":
+      input.style.color = "turquoise";
+      break;
+    case "add-all":
+      input.style.color = "LimeGreen";
+      break;
+    case "list":
+      input.style.color = "orange";
+      break;
+    case "reset":
+      input.style.color = "red";
+      break;
+    case "delete":
+      input.style.color = "red";
+      break;
+    case "close":
+      input.style.color = "gold";
+      break;
+    default:
+      input.style.coloir = "white";
+  }
 }
 
 /**
