@@ -26,9 +26,8 @@ const injectable = document.getElementById("injectable");
 const helpText = document.getElementById("help");
 const secondaryText = document.getElementById("secondary");
 const gif = document.getElementById("texting-gif");
-var command = "";
 var arrayOfCommands = [];
-var indexOfCommand = 1;
+var indexOfCommand = 0;
 const allCommands = [
   "add",
   "open",
@@ -54,9 +53,9 @@ const midPromptVals = [
 
 if (input !== null) {
   input.onkeydown = (e) => {
+    const command = input.value.split("> ", 2)[1].split(" ")[0];
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-    console.log(e.key);
     if (command === "hel" && e.key === "p") {
       input.style.color = "turquoise";
     }
@@ -67,51 +66,37 @@ if (input !== null) {
       input.style.color = "red";
     }
     if (e.key === " ") {
-      colourField();
-    }
-    if (e.ctrlKey && e.key === "Backspace") {
-      //e.preventDefault();
-      colourField();
-      command = "";
+      colourField(command);
     } else if (e.key === "Backspace") {
-      // console.log(command, input.value.length);
-
       if (input.value.length >= 3) {
-        command = command.substring(0, command.length - 1);
       } else {
         e.preventDefault();
         resetInputField();
       }
     } else if (e.key === "Enter") {
       arrayOfCommands.push(command);
-      command = "";
-    } else if (e.key.length === 1) {
-      // console.log("log", /[a-zA-Z]/.test(e.key));
-      command += e.key;
+      console.log("enter", arrayOfCommands);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (arrayOfCommands.length > 0) {
-        let indexToGet = arrayOfCommands.length - indexOfCommand;
-        command = arrayOfCommands[indexToGet];
+        let indexToGet = arrayOfCommands.length - indexOfCommand - 1;
         input.value = "> " + arrayOfCommands[indexToGet];
-        colourField();
-        if (indexOfCommand < arrayOfCommands.length) {
+        colourField(arrayOfCommands[indexToGet]);
+        if (indexOfCommand < arrayOfCommands.length - 1) {
           indexOfCommand += 1;
         }
       }
-      // console.log(command);
     } else if (e.key === "ArrowDown") {
-      if (indexOfCommand > 1) {
+      if (indexOfCommand >= 1) {
         indexOfCommand -= 1;
-        let indexToGet = arrayOfCommands.length - indexOfCommand;
+
+        let indexToGet = arrayOfCommands.length - indexOfCommand - 1;
         if (arrayOfCommands[indexToGet] != undefined) {
           input.value = "> " + arrayOfCommands[indexToGet];
-          command = arrayOfCommands[indexToGet];
-          colourField();
+          colourField(arrayOfCommands[indexToGet]);
         }
       } else {
         input.value = "> ";
-        command = "";
       }
     } else if (e.key === "Tab") {
       e.preventDefault();
@@ -125,17 +110,15 @@ if (input !== null) {
       });
       if (changedCommand !== undefined) {
         input.value = "> " + changedCommand;
-        command = changedCommand;
-        colourField();
+        // command = changedCommand;
+        colourField(changedCommand);
 
         for (i = 0; i < 3; i++) {
-          console.log(command);
           if (midPrompts[i] == command) {
             addInjectableText(midPromptVals[i]);
           }
         }
       }
-      console.log(command);
     }
   };
 }
@@ -189,7 +172,7 @@ async function getWindowTabs() {
 /**
  * Colour the input field
  */
-function colourField(){
+function colourField(command) {
   switch (command) {
     case "add":
       input.style.color = "LimeGreen";
@@ -286,7 +269,6 @@ if (form != null) {
     const toBeInserted = input.value.split("> ", 2)[1];
     let [command, workspace] = toBeInserted.split(" ");
     injectable.style.display = "none";
-    console.log("switch=", toBeInserted);
     switch (command) {
       /**
        * Open all tabs from a particular workspace
@@ -556,7 +538,7 @@ if (form != null) {
         callAPI("knock-knock")
           .then((res) => {
             const joke = res.data[0];
-            console.log(joke);
+            // console.log(joke);
             addInjectableText(joke.setup);
             addSecondaryText(joke.punchline);
             resetInputField();
@@ -574,7 +556,7 @@ if (form != null) {
         callAPI("general")
           .then((res) => {
             const joke = res.data[0];
-            console.log(joke);
+            // console.log(joke);
             addInjectableText(joke.setup);
             addSecondaryText(joke.punchline);
             resetInputField();
