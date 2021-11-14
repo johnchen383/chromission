@@ -29,7 +29,7 @@ const gif = document.getElementById("texting-gif");
 var command = "";
 var arrayOfCommands = [];
 var indexOfCommand = 1;
-var allCommands = [
+const allCommands = [
   "add",
   "open",
   "add-all",
@@ -45,7 +45,6 @@ var allCommands = [
   "prog-joke",
   "knock-knock"
 ];
-
 const midPrompts = [ "r", "re", "add" ];
 const midPromptVals = [ "reset | remove | random-joke", "reset | remove", "add | add-all"];
 
@@ -86,7 +85,6 @@ if (input !== null) {
         case "reset":
           input.style.color = "red";
           break;
-
         case "delete":
           input.style.color = "red";
           break;
@@ -152,7 +150,6 @@ if (input !== null) {
         for (i = 0; i < 3; i++){
           console.log(command)
           if (midPrompts[i] == command){
-            console.log("YEET")
             addInjectableText(midPromptVals[i]);
           }
         }
@@ -210,7 +207,6 @@ async function getWindowTabs() {
 /**
  * Reset the input field
  */
-
 function resetInputField() {
   if (input != null) {
     // console.log(input.value, input.value.length);
@@ -222,6 +218,7 @@ function resetInputField() {
 
 /**
  * Toggle visibility of help text
+ * @param {boolean} isVisible 
  */
 function toggleHelpVisibility(isVisible) {
   if (helpText != null) {
@@ -232,6 +229,11 @@ function toggleHelpVisibility(isVisible) {
     }
   }
 }
+
+/**
+ * toggle visibility of GIF indicator
+ * @param {boolean} isVisible 
+ */
 function toggleGIFvisibility(isVisible) {
   if (gif != null) {
     if (!isVisible) {
@@ -244,6 +246,7 @@ function toggleGIFvisibility(isVisible) {
 
 /**
  * Toggle visibility of secondary text
+ * @param {boolean} isVisible 
  */
 function toggleSecondaryVisibility(isVisible) {
   if (secondaryText != null) {
