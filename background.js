@@ -45,6 +45,10 @@ var allCommands = [
   "prog-joke",
   "knock-knock"
 ];
+
+const midPrompts = [ "r", "re", "add" ];
+const midPromptVals = [ "reset | remove | random-joke", "reset | remove", "add | add-all"];
+
 if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
@@ -144,6 +148,14 @@ if (input !== null) {
       if (changedCommand !== undefined) {
         input.value = "> " + changedCommand;
         command = changedCommand;
+
+        for (i = 0; i < 3; i++){
+          console.log(command)
+          if (midPrompts[i] == command){
+            console.log("YEET")
+            addInjectableText(midPromptVals[i]);
+          }
+        }
       }
     }
   };
