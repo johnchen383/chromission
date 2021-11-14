@@ -33,6 +33,7 @@ var allCommands = [
   "add",
   "open",
   "add-all",
+  "r",
   "re",
   "remove",
   "help",
@@ -40,6 +41,9 @@ var allCommands = [
   "reset",
   "delete",
   "close",
+  "random-joke",
+  "prog-joke",
+  "knock-knock"
 ];
 if (input !== null) {
   input.onkeydown = (e) => {
@@ -547,6 +551,12 @@ if (form != null) {
             resetInputField();
             toggleGIFvisibility(false);
           });
+        break;
+      case "joke":
+        addInjectableText("Want a joke? We've got plenty! Type one of the commands below.");
+        addSecondaryText("random-joke | prog-joke | knock-knock");
+        resetInputField();
+        toggleHelpVisibility(false);
         break;
       default:
         addInjectableText(
