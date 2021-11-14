@@ -33,6 +33,7 @@ var allCommands = [
   "add",
   "open",
   "add-all",
+  "re",
   "remove",
   "help",
   "list",
@@ -127,11 +128,16 @@ if (input !== null) {
       }
     } else if ((e.key = "Tab")) {
       e.preventDefault();
-      let changedCommand = allCommands.find((commandName) =>
-        commandName.includes(command)
+      let changedCommand = allCommands.find((commandName) => {
+        //check prefixes
+        if (commandName.split(command)[0] == ""){
+          return true;
+        } else {
+          return false;
+        }
+      }
       );
       if (changedCommand !== undefined) {
-        console.log(changedCommand, command);
         input.value = "> " + changedCommand;
         command = changedCommand;
       }
