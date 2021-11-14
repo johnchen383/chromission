@@ -32,10 +32,10 @@ var indexOfCommand = 1;
 var allCommands = [
   "add",
   "open",
+  "list",
   "add-all",
   "remove",
   "help",
-  "list",
   "reset",
   "delete",
   "close",
@@ -44,7 +44,7 @@ if (input !== null) {
   input.onkeydown = (e) => {
     addInjectableText("type 'help' for list of commands!");
     toggleSecondaryVisibility(false);
-    // console.log(e.key);
+    console.log(e.key);
     if (command === "hel" && e.key === "p") {
       input.style.color = "turquoise";
     }
@@ -86,7 +86,11 @@ if (input !== null) {
           break;
       }
     }
-    if (e.key === "Backspace") {
+    if (e.ctrlKey && e.key === "Backspace") {
+      //e.preventDefault();
+      console.log("herrrrrrrrrrrrr");
+      command = "";
+    } else if (e.key === "Backspace") {
       // console.log(command, input.value.length);
 
       if (input.value.length >= 3) {
@@ -125,7 +129,7 @@ if (input !== null) {
         input.value = "> ";
         command = "";
       }
-    } else if ((e.key = "Tab")) {
+    } else if (e.key === "Tab") {
       e.preventDefault();
       let changedCommand = allCommands.find((commandName) =>
         commandName.includes(command)
@@ -135,6 +139,7 @@ if (input !== null) {
         input.value = "> " + changedCommand;
         command = changedCommand;
       }
+      console.log(command);
     }
   };
 }
@@ -242,7 +247,7 @@ if (form != null) {
     const toBeInserted = input.value.split("> ", 2)[1];
     let [command, workspace] = toBeInserted.split(" ");
     injectable.style.display = "none";
-
+    console.log("switch=", toBeInserted);
     switch (command) {
       /**
        * Open all tabs from a particular workspace
