@@ -74,7 +74,7 @@ if (input !== null) {
         resetInputField();
       }
     } else if (e.key === "Enter") {
-      arrayOfCommands.push(command);
+      arrayOfCommands.push(input.value.split("> ", 2)[1]);
       console.log("enter", arrayOfCommands);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -173,7 +173,7 @@ async function getWindowTabs() {
  * Colour the input field
  */
 function colourField(command) {
-  switch (command) {
+  switch (command.split(" ")[0]) {
     case "add":
       input.style.color = "LimeGreen";
       break;
